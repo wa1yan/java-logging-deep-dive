@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: logging
+
+server:
+  port: 8088
+
+logging:
+  level:
+    dev.waiyanhtet.logging.controller: warn
