@@ -1,0 +1,56 @@
+<configuration>
+
+    <!-- Console Appender -->
+    <Appender name="CONSOLE_APPENDER" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </Appender>
+
+    <!-- File Appender (Not recommend for production)-->
+    <Appender name="FILE_APPENDER" class="ch.qos.logback.core.FileAppender">
+        <file>./logs/app.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%d %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </Appender>
+
+    <!-- Rolling File Appender With Timebased-->
+    <Appender name="ROLLING_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./rolling-logs/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./rolling-logs/app-%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </Appender>
+
+    <!-- Recommend for production -->
+    <!-- Rolling File Appender With Size and Time based-->
+    <Appender name="SIZE_TIME_BASED_ROLLING_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./size-and-time-based-rolling-logs/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>./size-and-time-based-rolling-logs/app-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <maxFileSize>100MB</maxFileSize> <!-- one file size -->
+            <maxHistory>30</maxHistory> <!-- number of file by file name pattern (30 days coz of yyyy-MM-dd)-->
+            <totalSizeCap>2GB</totalSizeCap> <!-- file size for log folder -->
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </Appender>
+
+    <logger name="dev.waiyanhtet.logging.controller.PaymentController" value="INFO" additivity="false">
+        <appender-ref ref="CONSOLE_APPENDER"/>
+        <appender-ref ref="FILE_APPENDER" />
+        <appender-ref ref="ROLLING_FILE_APPENDER" />
+        <appender-ref ref="SIZE_TIME_BASED_ROLLING_FILE_APPENDER" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE_APPENDER"/>
+    </root>
+</configuration>
